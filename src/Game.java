@@ -17,28 +17,54 @@ public class Game extends Observable implements Serializable{
 	
 	int[][] ground;
 
-	List<Player> players = new ArrayList<Player>();
+	Player[] players;
+	int currentplayer;
 	
-	public Game(int id, int size){
+	public Game(int id, int pl, int size){
 		this.savenum = id;
 		ground = new int[size][size];
 		
+		players = new Player[pl];
+		
+		startGame();
 		drawMap();
+	}
+	
+	private void startGame(){
+		boolean canstart = true;
+		
+		for(int i = 0; i < players.length; i++){
+			if(players[i] == null){
+				canstart = false;
+			}
+		}
+		
+		if(canstart){
+			currentplayer = 0;
+		}
 	}
 	
 	private void drawMap(){
 		for(int i = 0; i < ground.length; i++){
 			for(int j = 0; j < ground[0].length; j++){
 				ground[i][j] = 1;
-				if(i == j){
+				if(Math.abs(i - j) < 3){
 					ground[i][j] = 4;
 				}
 			}
 		}
 	}
 	
-	public void addPlayer(Player p){
-		players.add(p);
+	private void nextTurn(){
+		currentplayer++;
+		if(currentplayer > players.length){
+			currentplayer = 0;
+			//TODO NEW WEEK
+		}
+	}
+	
+	public Player getActivePlayer(){
+		return players[currentplayer];
 	}
 	
 	public int getGround(int x, int y){
