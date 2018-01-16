@@ -1,4 +1,4 @@
-# Mansplaining
+# StrategyGame
 Strategy game
 
 *Some text*
